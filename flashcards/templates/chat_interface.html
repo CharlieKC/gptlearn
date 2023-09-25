@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Interface</title>
+    {% csrf_token %}
+
+</head>
+<body>
+    <div id="chat-box">
+        <!-- Messages will go here -->
+    </div>
+    <textarea id="user-input"></textarea>
+    <button onclick="sendMessage()">Send</button>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Function to get CSRF token from cookies
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
+    function appendMessage(who, text) {
+        const message = `<div class="${who}">${text}</div>`;
+        $("#chat-box").append(message);
+    }
+
+    function sendMessage() {
+        const userInput = $("#user-input").val();
+        appendMessage("user", userInput);
+
+        $.ajax({
+            url: "/api/chat/",
+            method: "POST",
+            headers: { "X-CSRFToken": csrftoken },
+            data: { text: userInput },
+            success: function(response) {
+                appendMessage("assistant", response.text);
+            }
+        });
+
+        $("#user-input").val("");
+    }
+</script>
+
+    
+</body>
+</html>
