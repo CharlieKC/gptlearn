@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "gptlearn"
+version = "0.1.0"
+description = "Django app for making flashcards with ChatGPT"
+authors = ["CharlieKC <charlie.kruczko@gmail.com>"]
+license = "MIT License"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2.5"
+django-ninja = "^0.22.2"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
