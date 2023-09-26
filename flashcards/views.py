@@ -1,7 +1,8 @@
 from django.shortcuts import render
 
 def chat_interface(request):
-    return render(request, 'chat_interface.html')
+    # return render(request, 'chat_interface.html')
+    return render(request, 'base.html')
 
 from django.http import JsonResponse
 from .models import Conversation, Message

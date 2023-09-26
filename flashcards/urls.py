@@ -15,12 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 
 from . import views
+
+app_name = "flashcards"
 
 urlpatterns = [
     path('', views.chat_interface, name="chat_interface"),
     path('api/chat/', views.api_chat, name='api_chat'),
     path('admin/', admin.site.urls),
+    path("__reload__/", include("django_browser_reload.urls")),
 ]

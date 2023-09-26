@@ -46,6 +46,34 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-browser-reload"
+version = "1.11.0"
+description = "Automatically reload your browser in development."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "django_browser_reload-1.11.0-py3-none-any.whl", hash = "sha256:ce9576bd31562fda01dd8fca73e07696a9a1c7138d2aee084abfb7315dc633a4"},
+    {file = "django_browser_reload-1.11.0.tar.gz", hash = "sha256:fe232478a58e9e5d8b703537651d5a76b017d2208d1da5dfbe013937b5cca065"},
+]
+
+[package.dependencies]
+Django = ">=3.2"
+
+[[package]]
+name = "django-extensions"
+version = "3.2.3"
+description = "Extensions for Django"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "django-extensions-3.2.3.tar.gz", hash = "sha256:44d27919d04e23b3f40231c4ab7af4e61ce832ef46d610cc650d53e68328410a"},
+    {file = "django_extensions-3.2.3-py3-none-any.whl", hash = "sha256:9600b7562f79a92cbf1fde6403c04fee314608fefbb595502e34383ae8203401"},
+]
+
+[package.dependencies]
+Django = ">=3.2"
+
+[[package]]
 name = "django-ninja"
 version = "0.22.2"
 description = "Django Ninja - Fast Django REST framework"
@@ -64,6 +92,24 @@ pydantic = ">=1.6,<2.0.0"
 dev = ["pre-commit"]
 doc = ["markdown-include", "mkdocs", "mkdocs-material", "mkdocstrings"]
 test = ["black", "django-stubs", "flake8", "isort", "mypy (==0.931)", "psycopg2-binary", "pytest", "pytest-asyncio", "pytest-cov", "pytest-django"]
+
+[[package]]
+name = "django-tailwind"
+version = "3.6.0"
+description = "Tailwind CSS Framework for Django projects"
+optional = false
+python-versions = ">=3.8.1,<4.0.0"
+files = [
+    {file = "django_tailwind-3.6.0-py3-none-any.whl", hash = "sha256:93db0ed1c18ae21ee8ad7f19f96744f5b2322e9d9872307a06e0f45b21cbe60a"},
+    {file = "django_tailwind-3.6.0.tar.gz", hash = "sha256:d878222a4ef957d1d0f0529dcd28b0065995ca6b8c7b43b058b9214c9e7d8ec0"},
+]
+
+[package.dependencies]
+django = ">=3.2.14"
+django-browser-reload = {version = ">=1.6.0,<2.0.0", optional = true, markers = "extra == \"reload\""}
+
+[package.extras]
+reload = ["django-browser-reload (>=1.6.0,<2.0.0)"]
 
 [[package]]
 name = "iniconfig"
@@ -155,6 +201,33 @@ dotenv = ["python-dotenv (>=0.10.4)"]
 email = ["email-validator (>=1.0.3)"]
 
 [[package]]
+name = "pydotplus"
+version = "2.0.2"
+description = "Python interface to Graphviz's Dot language"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pydotplus-2.0.2.tar.gz", hash = "sha256:91e85e9ee9b85d2391ead7d635e3d9c7f5f44fd60a60e59b13e2403fa66505c4"},
+]
+
+[package.dependencies]
+pyparsing = ">=2.0.1"
+
+[[package]]
+name = "pyparsing"
+version = "3.1.1"
+description = "pyparsing module - Classes and methods to define and execute parsing grammars"
+optional = false
+python-versions = ">=3.6.8"
+files = [
+    {file = "pyparsing-3.1.1-py3-none-any.whl", hash = "sha256:32c7c0b711493c72ff18a981d24f28aaf9c1fb7ed5e9667c9e84e3db623bdbfb"},
+    {file = "pyparsing-3.1.1.tar.gz", hash = "sha256:ede28a1a32462f5a9705e07aea48001a08f7cf81a021585011deba701581a0db"},
+]
+
+[package.extras]
+diagrams = ["jinja2", "railroad-diagrams"]
+
+[[package]]
 name = "pytest"
 version = "7.4.2"
 description = "pytest: simple powerful testing with Python"
@@ -173,6 +246,24 @@ pluggy = ">=0.12,<2.0"
 
 [package.extras]
 testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
+
+[[package]]
+name = "pytest-django"
+version = "4.5.2"
+description = "A Django plugin for pytest."
+optional = false
+python-versions = ">=3.5"
+files = [
+    {file = "pytest-django-4.5.2.tar.gz", hash = "sha256:d9076f759bb7c36939dbdd5ae6633c18edfc2902d1a69fdbefd2426b970ce6c2"},
+    {file = "pytest_django-4.5.2-py3-none-any.whl", hash = "sha256:c60834861933773109334fe5a53e83d1ef4828f2203a1d6a0fa9972f4f75ab3e"},
+]
+
+[package.dependencies]
+pytest = ">=5.4.0"
+
+[package.extras]
+docs = ["sphinx", "sphinx-rtd-theme"]
+testing = ["Django", "django-configurations (>=2.0)"]
 
 [[package]]
 name = "sqlparse"
@@ -215,4 +306,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "305a6dd50cfefef1f53eea4742c8a647b800a697be20b03fd65ccdba4920a7c5"
+content-hash = "691632ac564ae6e5c5da74f8e63d192ee103b5c32850127e6d1ac16e024868a9"
