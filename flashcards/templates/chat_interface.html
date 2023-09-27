@@ -1,20 +1,45 @@
 {% extends "base.html" %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Chat Interface</title>
-    {% csrf_token %}
-
-</head>
-<body>
+{% block content %}
     <div id="chat-box">
         <!-- Messages will go here -->
     </div>
     <textarea id="user-input"></textarea>
     <button onclick="sendMessage()">Send</button>
+    
+    <div class="chat chat-start">
+        <div class="chat-header">
+          Obi-Wan Kenobi
+          <time class="text-xs opacity-50">2 hours ago</time>
+        </div>
+        <div class="chat-bubble">You were the Chosen One!</div>
+        <div class="chat-footer opacity-50">
+          Seen
+        </div>
+      </div>
+      <div class="chat chat-start">
+        <div class="chat-header">
+          Obi-Wan Kenobi
+          <time class="text-xs opacity-50">2 hour ago</time>
+        </div>
+        <div class="chat-bubble">I loved you.</div>
+        <div class="chat-footer opacity-50">
+          Delivered
+        </div>
+      </div>
+      <div class="chat chat-end">
+        <div class="chat-header">
+          Obi-Wan Kenobi
+          <time class="text-xs opacity-50">2 hour ago</time>
+        </div>
+        <div class="chat-bubble">I loved you.</div>
+        <div class="chat-footer opacity-50">
+          Delivered
+        </div>
+      </div>
+      
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     // Function to get CSRF token from cookies
     function getCookie(name) {
@@ -57,6 +82,4 @@
     }
 </script>
 
-    
-</body>
-</html>
+{% endblock content %}
