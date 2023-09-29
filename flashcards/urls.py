@@ -26,4 +26,5 @@ urlpatterns = [
     path('api/chat/', views.api_chat, name='api_chat'),
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
