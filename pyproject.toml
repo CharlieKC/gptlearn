@@ -14,6 +14,7 @@ django-extensions = "^3.2.3"
 pydotplus = "^2.0.2"
 django-tailwind = {extras = ["reload"], version = "^3.6.0"}
 django-browser-reload = "^1.11.0"
+whitenoise = "^6.5.0"
 
 
 [tool.poetry.group.dev.dependencies]

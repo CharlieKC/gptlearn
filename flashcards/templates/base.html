@@ -8,6 +8,7 @@
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		{% tailwind_css %}
 		{% csrf_token %}
+		{% load static %}
 	</head>
 	<body>
 		<div class="navbar bg-neutral text-neutral-content">
@@ -21,7 +22,7 @@
 			  <div class="dropdown dropdown-end">
 				<label tabindex="0" class="btn btn-ghost btn-circle avatar">
 				  <div class="w-10 rounded-full">
-					<img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+					<img src="{% static "images/cat.png" %}" alt="profile picture">
 				  </div>
 				</label>
 				<ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">

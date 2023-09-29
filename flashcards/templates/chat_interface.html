@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div id="chat-ui" class="mx-auto w-10/12">
+    <div id="chat-ui" class="mx-auto w-4/12">
         <div class="">
             <div id="chat-box" class="">
             <!-- Messages will go here -->
@@ -24,6 +24,10 @@
         style="resize: none"></textarea>
       </div>
     </div>
+    
+    {% load static %}
+    <img src="{% static "images/cat.png" %}" alt="Hi!">
+`
     
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
