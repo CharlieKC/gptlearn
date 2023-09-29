@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div id="chat-ui" class="w-full">
-        <div class="flex flex-col justify-center">
-            <div id="chat-box">
+    <div id="chat-ui" class="mx-auto w-10/12">
+        <div class="">
+            <div id="chat-box" class="">
             <!-- Messages will go here -->
             </div>
         </div>
@@ -24,6 +24,7 @@
         style="resize: none"></textarea>
       </div>
     </div>
+    
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -51,7 +52,7 @@
             left_or_right = "end";
         } 
 
-        const message = `<div class="chat chat-${left_or_right}"><div class="chat-header w-8/12">${who}</div><div class="${who} chat-bubble">${text}</div></div>`;
+        const message = `<div class="chat chat-${left_or_right}"><div class="chat-header">${who}</div><div class="${who} chat-bubble">${text}</div></div>`;
         $("#chat-box").append(message);
     }
 
