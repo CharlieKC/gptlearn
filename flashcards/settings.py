@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'flashcards',
     'tailwind',
     'debug_toolbar',
+    'markdownify',
     'django_browser_reload',
     'django_extensions',
     'django.contrib.admin',
@@ -137,3 +138,28 @@ TAILWIND_APP_NAME = 'flashcards'
 
 INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
 
+tags = [
+    'a',
+    'p',
+    'h1',
+    'h2',
+    'h3',
+    'ul',
+    'li',
+    'span',
+    'pre',
+    'code'
+]
+
+MARKDOWNIFY = {
+   "default": {
+      "WHITELIST_TAGS": tags,
+      "MARKDOWN_EXTENSIONS": ["markdown.extensions.fenced_code", "markdown.extensions.codehilite"],
+      "MARKDOWN_EXTENSION_CONFIGS": {
+            "fenced_code": {
+                "lang_prefix": "language-python"
+            }
+        }
+
+   }
+}

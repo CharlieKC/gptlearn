@@ -1,16 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div id="chat-ui" class="mx-auto w-4/12">
-        <div class="">
-            <div id="chat-box" class="">
-            <!-- Messages will go here -->
-            </div>
-        </div>
-        <!-- <input id="user-input" type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" /> -->
-      
+    <div id="chat-ui" class="mx-auto w-11/12">
+        <!-- Messages will go here -->
+        <div id="chat-box" class=""></div>
     </div>
-    <!-- <div class="absolute bottom-0 left-0 w-full border-t"> -->
     
     <!-- Ensure space at bottom of page -->
     <div class="fixed bottom-0 my-10"></div>
@@ -47,12 +41,15 @@
     const csrftoken = getCookie('csrftoken');
 
     function appendMessage(who, text) {
-        let left_or_right = "start";
+        let left_or_right = "end";
+        let color = "success";
         if (who === "user") {
-            left_or_right = "end";
+            left_or_right = "start";
+            color = "primary";
         } 
 
-        const message = `<div class="chat chat-${left_or_right}"><div class="chat-header">${who}</div><div class="${who} chat-bubble">${text}</div></div>`;
+        // const message = `<div class="chat chat-${left_or_right}"><div class="chat-header mx-1">${who}</div><div class="chat-bubble chat-bubble-${color}">${text}</div></div>`;
+        const message = `<div class="chat chat-${left_or_right}"><div class="chat-header mx-1">${who}</div><div class="chat-bubble chat-bubble-${color}">${text}</div></div>`;
         $("#chat-box").append(message);
     }
 

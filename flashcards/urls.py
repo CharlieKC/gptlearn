@@ -23,6 +23,7 @@ app_name = "flashcards"
 
 urlpatterns = [
     path('', views.chat_interface, name="chat_interface"),
+    path('conversations', views.conversation_list, name="conversation_list"),
     path('api/chat/', views.api_chat, name='api_chat'),
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),

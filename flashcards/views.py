@@ -6,6 +6,26 @@ def chat_interface(request):
 from django.http import JsonResponse
 from .models import Conversation, Message
 
+markdowntext = """
+# this is some code
+
+here
+
+``` { .python }
+def for i in range(10):
+    print("hello world")
+```
+
+:::python
+print('hellow world')
+
+
+"""
+
+def conversation_list(request):
+    """Show a list of all the conversations!"""
+    return render(request, 'conversation_list.html', {"markdowntext": markdowntext})
+
 def api_chat(request):
     # Create a new conversation if one doesn't exist
     if 'conversation_id' not in request.session:
