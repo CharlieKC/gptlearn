@@ -148,13 +148,16 @@ tags = [
     'li',
     'span',
     'pre',
-    'code'
+    'code',
+    'div',
+    'img'
 ]
 
 MARKDOWNIFY = {
    "default": {
       "WHITELIST_TAGS": tags,
       "MARKDOWN_EXTENSIONS": ["markdown.extensions.fenced_code", "markdown.extensions.codehilite"],
+      "WHITELIST_ATTRS": ['class', 'src', 'alt'], # required for syntax highlighting
       "MARKDOWN_EXTENSION_CONFIGS": {
             "fenced_code": {
                 "lang_prefix": "language-python"

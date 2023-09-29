@@ -1,3 +1,4 @@
+import string
 from django.shortcuts import render
 
 def chat_interface(request):
@@ -5,22 +6,38 @@ def chat_interface(request):
 
 from django.http import JsonResponse
 from .models import Conversation, Message
+from pathlib import Path
 
-markdowntext = """
+markdowntext = '''
 # this is some code
 
 here
 
-``` { .python }
-def for i in range(10):
-    print("hello world")
+``` python
+print("hello world")
+```
+
+```python
+# this is a comment
+print("hello world!")
 ```
 
 :::python
 print('hellow world')
 
 
-"""
+Here are my projects `models.py`
+
+``` python
+# {(Path(__file__).parent / "models.py").read_text()}
+```
+
+# How about an image?
+
+![Tux, the Linux mascot]({% static images/cat.png %})
+
+
+'''
 
 def conversation_list(request):
     """Show a list of all the conversations!"""
