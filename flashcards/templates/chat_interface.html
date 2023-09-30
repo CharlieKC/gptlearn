@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <h1>Conversation: {{ request.session.conversation_id }} </h1>
+
+    {% for msg in messages %}
+        <p>{{ msg.text }}</p>
+    {% endfor %}
+    
     <div id="chat-ui" class="mx-auto w-11/12">
         <!-- Messages will go here -->
         <div id="chat-box" class=""></div>
@@ -48,10 +54,19 @@
             color = "primary";
         } 
 
+
         // const message = `<div class="chat chat-${left_or_right}"><div class="chat-header mx-1">${who}</div><div class="chat-bubble chat-bubble-${color}">${text}</div></div>`;
         const message = `<div class="chat chat-${left_or_right}"><div class="chat-header mx-1">${who}</div><div class="chat-bubble chat-bubble-${color}">${text}</div></div>`;
         $("#chat-box").append(message);
     }
+    // {{ messages|json_script:"message-data"}}
+    
+    // const existingMessages = JSON.parse(document.getElementById('hello-data').message-data);
+    // existingMessages.forEach(element => {
+    //     appendMessage(element.role, element.text);
+        
+    // });
+
 
     function sendMessage() {
         const userInput = $("#user-input").val();
