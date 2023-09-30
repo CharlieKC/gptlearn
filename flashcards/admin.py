@@ -14,5 +14,3 @@ class ConversationAdmin(admin.ModelAdmin):
 
 admin.site.register(Conversation, ConversationAdmin)
 admin.site.register(Message)
-# admin.site.register(MessageInline)
-# admin.site.register(ConversationAdmin)
