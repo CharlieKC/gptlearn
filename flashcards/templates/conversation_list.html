@@ -29,6 +29,10 @@
     {{ markdowntext |markdownify }}
 
 
+    <h3>What is your username?</h3>
+    {% load account %}
+    {% user_display user %}
+
 
 
   </article>
