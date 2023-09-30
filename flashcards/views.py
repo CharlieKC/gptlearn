@@ -1,19 +1,27 @@
 import string
 from django.shortcuts import render
+from django.http import JsonResponse
+from .models import Conversation, Message
+from pathlib import Path
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/accounts/login/')
 def chat_interface(request):
     messages = []
-    if request.user:
-        conversation = Conversation.objects.get_or_create(user=request.user)[0]
-        conversation.save()
-        request.session['conversation_id'] = conversation.id
+
+    if request.user.is_authenticated:
+        if conversation_id := request.session.get('conversation_id'):
+            conversation = Conversation.objects.get(user=request.user, id=conversation_id)
+        else:
+            conversation = Conversation.objects.create(user=request.user)
+            conversation.save()
+            request.session['conversation_id'] = conversation.id
+            
+
         for msg in conversation.messages.all():
             messages.append(msg)
     return render(request, 'chat_interface.html', {"messages": messages})
 
-from django.http import JsonResponse
-from .models import Conversation, Message
-from pathlib import Path
 
 markdowntext = '''
 # this is some code
