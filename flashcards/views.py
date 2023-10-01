@@ -25,6 +25,8 @@ def chat_interface(request):
 @login_required(login_url='/accounts/login/')
 def list_user_conversations(request):
     """This endpoint will list the user conversations"""
+    conversations = Conversation.objects.get(user=request.user).all()
+    return JsonResponse(conversations)
 
 markdowntext = '''
 # this is some code
