@@ -22,6 +22,9 @@ def chat_interface(request):
             messages.append(msg)
     return render(request, 'chat_interface.html', {"messages": messages})
 
+@login_required(login_url='/accounts/login/')
+def list_user_conversations(request):
+    """This endpoint will list the user conversations"""
 
 markdowntext = '''
 # this is some code
