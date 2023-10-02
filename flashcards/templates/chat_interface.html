@@ -1,106 +1,99 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Conversation: {{ request.session.conversation_id }} </h1>
-
-    {% for msg in messages %}
-        <p>{{ msg.text }}</p>
-    {% endfor %}
-    
-    <div id="chat-ui" class="mx-auto w-11/12">
-        <!-- Messages will go here -->
-        <div id="chat-box" class=""></div>
+  <h1>Conversation: {{ request.session.conversation_id }}</h1>
+  {% for msg in messages %}<p>{{ msg.text }}</p>{% endfor %}
+  <div id="chat-ui" class="mx-auto w-11/12">
+    <!-- Messages will go here -->
+    <div id="chat-box"></div>
+  </div>
+  <!-- Ensure space at bottom of page -->
+  <div class="fixed bottom-0 my-10"></div>
+  <div class="fixed bottom-0 left-0 w-full border-t">
+    <div class="flex justify-center my-2">
+      <textarea id="user-input"
+                rows="1"
+                class="textarea textarea-bordered w-11/12 text-xl"
+                style="resize: none"></textarea>
     </div>
-    
-    <!-- Ensure space at bottom of page -->
-    <div class="fixed bottom-0 my-10"></div>
-    
-    <div class="fixed bottom-0 left-0 w-full border-t">
-      <div class="flex justify-center my-2">
-        <textarea 
-        id="user-input" 
-        rows="1" 
-        class="textarea textarea-bordered w-11/12 text-xl" 
-        style="resize: none"></textarea>
-      </div>
-    </div>
-    
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
     // Function to get CSRF token from cookies
     function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
         }
-        return cookieValue;
+      }
+      return cookieValue;
     }
 
     const csrftoken = getCookie('csrftoken');
 
     function appendMessage(who, text) {
-        let left_or_right = "end";
-        let color = "success";
-        if (who === "user") {
-            left_or_right = "start";
-            color = "primary";
-        } 
+      let left_or_right = "end";
+      let color = "success";
+      if (who === "user") {
+        left_or_right = "start";
+        color = "primary";
+      }
 
 
-        // const message = `<div class="chat chat-${left_or_right}"><div class="chat-header mx-1">${who}</div><div class="chat-bubble chat-bubble-${color}">${text}</div></div>`;
-        const message = `<div class="chat chat-${left_or_right}"><div class="chat-header mx-1">${who}</div><div class="chat-bubble chat-bubble-${color}">${text}</div></div>`;
-        $("#chat-box").append(message);
+      // const message = `<div class="chat chat-${left_or_right}"><div class="chat-header mx-1">${who}</div><div class="chat-bubble chat-bubble-${color}">${text}</div></div>`;
+      const message = `<div class="chat chat-${left_or_right}"><div class="chat-header mx-1">${who}</div><div class="chat-bubble chat-bubble-${color}">${text}</div></div>`;
+      $("#chat-box").append(message);
     }
-    
+
     // const existingMessages = JSON.parse(document.getElementById('hello-data').message-data);
     // existingMessages.forEach(element => {
     //     appendMessage(element.role, element.text);
-        
+
     // });
 
 
     function sendMessage() {
-        const userInput = $("#user-input").val();
-        appendMessage("user", userInput);
+      const userInput = $("#user-input").val();
+      appendMessage("user", userInput);
 
-        $.ajax({
-            url: "/api/chat/",
-            method: "POST",
-            headers: { "X-CSRFToken": csrftoken },
-            data: { text: userInput },
-            success: function(response) {
-                appendMessage("assistant", response.text);
-            }
-        });
+      $.ajax({
+        url: "/api/chat/",
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrftoken
+        },
+        data: {
+          text: userInput
+        },
+        success: function(response) {
+          appendMessage("assistant", response.text);
+        }
+      });
 
-        $("#user-input").val("");
+      $("#user-input").val("");
     }
 
 
-const userInput = document.getElementById('user-input');
+    const userInput = document.getElementById('user-input');
 
-// Add event listener for the 'keydown' event
-userInput.addEventListener('keydown', function(event) {
-  // Reset rows to 1 to calculate the correct scrollHeight
-  if (event.key === 'Enter') {
-    if (event.shiftKey) {
-            userInput.rows++;
-      return;
-    }
-    event.preventDefault();  // Prevent the default action (new line or form submission)
-    userInput.rows = 1;
-    sendMessage();
-  }
-});
-
-</script>
-
+    // Add event listener for the 'keydown' event
+    userInput.addEventListener('keydown', function(event) {
+      // Reset rows to 1 to calculate the correct scrollHeight
+      if (event.key === 'Enter') {
+        if (event.shiftKey) {
+          userInput.rows++;
+          return;
+        }
+        event.preventDefault(); // Prevent the default action (new line or form submission)
+        userInput.rows = 1;
+        sendMessage();
+      }
+    });
+  </script>
 {% endblock content %}

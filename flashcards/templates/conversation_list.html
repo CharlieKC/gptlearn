@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<article class="prose prose-base mx-auto my-5">
+  <article class="prose prose-base mx-auto my-5">
     <h1>Garlic bread with cheese: What the science tells us</h1>
     <p>
       For years parents have espoused the health benefits of eating garlic bread with cheese to their
@@ -13,28 +13,21 @@
       springing up around the country.
     </p>
     <code class="code">
-        <span>Example code</span>
-        <span>Example code</span>
-        <span>Example code</span>
-        <span>Example code</span>
+      <span>Example code</span>
+      <span>Example code</span>
+      <span>Example code</span>
+      <span>Example code</span>
     </code>
-<pre class="language-python">
+    <pre class="language-python">
 <code class="language-python">for i in range(10):
-    print("hello!")</code></pre>
-    <!-- ... -->
-    
-
+print("hello!")</code></pre>
     {% load markdownify %}
     {% load static %}
+
     {{ markdowntext |markdownify }}
-
-
     <h3>What is your username?</h3>
     {% load account %}
+
     {% user_display user %}
-
-
-
   </article>
-
 {% endblock content %}
