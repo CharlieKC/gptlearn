@@ -22,14 +22,14 @@ from . import views
 
 app_name = "flashcards"
 
+# ToDo: Consider how these change with django-ninja or drf
 urlpatterns = [
-    path('', views.chat_interface, name="chat_interface"),
-    path('conversations', views.conversation_list, name="conversation_list"),
-    path('api/chat/', views.api_chat, name='api_chat'),
-    path('admin/', admin.site.urls),
-    path('accounts/', include('allauth.urls')),
-    path('accounts/profile/', RedirectView.as_view(url='/', permanent=False), name='account_redirect'),
-
+    path("", views.chat_interface, name="chat_interface"),
+    path("conversations", views.conversation_list, name="conversation_list"),
+    path("api/chat/", views.api_chat, name="api_chat"),
+    path("admin/", admin.site.urls),
+    path("accounts/", include("allauth.urls")),
+    path("accounts/profile/", RedirectView.as_view(url="/", permanent=False), name="account_redirect"),
     path("__reload__/", include("django_browser_reload.urls")),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
