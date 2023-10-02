@@ -4,6 +4,8 @@ from django.http import JsonResponse
 from .models import Conversation, Message
 from pathlib import Path
 from django.contrib.auth.decorators import login_required
+from django.core.serializers import serialize
+
 
 @login_required(login_url='/accounts/login/')
 def chat_interface(request):
@@ -25,8 +27,8 @@ def chat_interface(request):
 @login_required(login_url='/accounts/login/')
 def list_user_conversations(request):
     """This endpoint will list the user conversations"""
-    conversations = Conversation.objects.get(user=request.user).all()
-    return JsonResponse(conversations)
+    conversations = Conversation.objects.filter(user=request.user).all()
+    return JsonResponse(serialize('json', conversations), safe=False)
 
 markdowntext = '''
 # this is some code
