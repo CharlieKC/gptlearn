@@ -1,32 +1,33 @@
-import string
-from django.shortcuts import render
-from django.http import JsonResponse
-from .models import Conversation, Message
-from pathlib import Path
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.shortcuts import render
 
-@login_required(login_url='/accounts/login/')
+from .models import Conversation, Message
+
+
+@login_required(login_url="/accounts/login/")
 def chat_interface(request):
     messages = []
 
     if request.user.is_authenticated:
-        if conversation_id := request.session.get('conversation_id'):
+        if conversation_id := request.session.get("conversation_id"):
             conversation = Conversation.objects.get(user=request.user, id=conversation_id)
         else:
             conversation = Conversation.objects.create(user=request.user)
             conversation.save()
-            request.session['conversation_id'] = conversation.id
-            
+            request.session["conversation_id"] = conversation.id
 
         for msg in conversation.messages.all():
             messages.append(msg)
-    return render(request, 'chat_interface.html', {"messages": messages})
+    return render(request, "chat_interface.html", {"messages": messages})
 
-@login_required(login_url='/accounts/login/')
+
+@login_required(login_url="/accounts/login/")
 def list_user_conversations(request):
     """This endpoint will list the user conversations"""
 
-markdowntext = '''
+
+markdowntext = """
 # this is some code
 
 here
@@ -55,28 +56,30 @@ Here are my projects `models.py`
 ![Tux, the Linux mascot]({% static images/cat.png %})
 
 
-'''
+"""
+
 
 def conversation_list(request):
     """Show a list of all the conversations!"""
-    return render(request, 'conversation_list.html', {"markdowntext": markdowntext})
+    return render(request, "conversation_list.html", {"markdowntext": markdowntext})
+
 
 def api_chat(request):
     # Create a new conversation if one doesn't exist
-    if 'conversation_id' not in request.session:
+    if "conversation_id" not in request.session:
         conversation = Conversation.objects.create(user=request.user)
-        request.session['conversation_id'] = conversation.id
+        request.session["conversation_id"] = conversation.id
     else:
-        conversation = Conversation.objects.get(user=request.user, id=request.session['conversation_id'])
+        conversation = Conversation.objects.get(user=request.user, id=request.session["conversation_id"])
 
     # Save user message
     user_input = request.POST.get("text")
-    Message.objects.create(conversation=conversation, text=user_input, role='user')
+    Message.objects.create(conversation=conversation, text=user_input, role="user")
 
     # TODO: Get chatbot's response here
     bot_response = "Hello, this is a placeholder response."
 
     # Save bot message
-    Message.objects.create(conversation=conversation, text=bot_response, role='assistant')
+    Message.objects.create(conversation=conversation, text=bot_response, role="assistant")
 
     return JsonResponse({"text": bot_response})
