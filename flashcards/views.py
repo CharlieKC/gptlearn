@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.shortcuts import render
 
@@ -25,6 +26,8 @@ def chat_interface(request):
 @login_required(login_url="/accounts/login/")
 def list_user_conversations(request):
     """This endpoint will list the user conversations"""
+    conversations = Conversation.objects.filter(user=request.user).all()
+    return JsonResponse(serialize("json", conversations), safe=False)
 
 
 markdowntext = """
