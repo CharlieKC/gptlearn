@@ -20,6 +20,10 @@ django-markdownify = "^0.9.3"
 pygments = "^2.16.1"
 django-allauth = "^0.57.0"
 openai = "^0.28.1"
+django-stubs = "^4.2.4"
+factory-boy = "^3.3.0"
+pytest-watcher = "^0.3.4"
+orjson = "^3.9.7"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -75,7 +79,7 @@ module = "*.migrations.*"
 ignore_errors = true
 
 [tool.django-stubs]
-django_settings_module = "config.settings.test"
+django_settings_module = "flashcards.settings"
 
 
 # ==== PyLint ====
@@ -83,7 +87,7 @@ django_settings_module = "config.settings.test"
 load-plugins = [
     "pylint_django",
 ]
-django-settings-module = "config.settings.local"
+django-settings-module = "flashcards.settings"
 
 [tool.pylint.FORMAT]
 max-line-length = 119
@@ -126,3 +130,10 @@ indent_size = 2
 
 [tool.djlint.js]
 indent_size = 2
+
+[tool.pytest.ini_options]
+addopts = "--ds=flashcards.settings"
+python_files = [
+    "tests.py",
+    "test_*.py",
+]
