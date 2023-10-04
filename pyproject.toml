@@ -21,6 +21,9 @@ pygments = "^2.16.1"
 django-allauth = "^0.57.0"
 openai = "^0.28.1"
 django-stubs = "^4.2.4"
+factory-boy = "^3.3.0"
+pytest-watcher = "^0.3.4"
+orjson = "^3.9.7"
 
 
 [tool.poetry.group.dev.dependencies]

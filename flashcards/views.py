@@ -26,8 +26,9 @@ def chat_interface(request):
 @login_required(login_url="/accounts/login/")
 def list_user_conversations(request):
     """This endpoint will list the user conversations"""
-    conversations = Conversation.objects.filter(user=request.user).all()
-    return JsonResponse(serialize("json", conversations), safe=False)
+    conversations = list(Conversation.objects.filter(user=request.user).all())
+    data = serialize("json", conversations)
+    return JsonResponse(data, safe=False)
 
 
 markdowntext = """
@@ -76,10 +77,12 @@ def api_chat(request):
         conversation = Conversation.objects.get(user=request.user, id=request.session["conversation_id"])
 
     # Save user message
-    user_input = request.POST.get("text")
+    user_input = request.POST.get("text").strip()
+    assert isinstance(user_input, str), f"Expected user to enter a string instead got: {user_input}"
     Message.objects.create(conversation=conversation, text=user_input, role="user")
 
     # TODO: Get chatbot's response here
+    # ToDo: ensure it is whitespace stripped
     bot_response = "Hello, this is a placeholder response."
 
     # Save bot message
