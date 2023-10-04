@@ -31,43 +31,6 @@ def list_user_conversations(request):
     return JsonResponse(data, safe=False)
 
 
-markdowntext = """
-# this is some code
-
-here
-
-``` python
-print("hello world")
-```
-
-```python
-# this is a comment
-print("hello world!")
-```
-
-:::python
-print('hellow world')
-
-
-Here are my projects `models.py`
-
-``` python
-# {(Path(__file__).parent / "models.py").read_text()}
-```
-
-# How about an image?
-
-![Tux, the Linux mascot]({% static images/cat.png %})
-
-
-"""
-
-
-def conversation_list(request):
-    """Show a list of all the conversations!"""
-    return render(request, "conversation_list.html", {"markdowntext": markdowntext})
-
-
 def api_chat(request):
     # Create a new conversation if one doesn't exist
     if "conversation_id" not in request.session:
