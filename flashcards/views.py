@@ -52,3 +52,11 @@ def api_chat(request):
     Message.objects.create(conversation=conversation, text=bot_response, role="assistant")
 
     return JsonResponse({"text": bot_response})
+
+
+def chat_room(request):
+    return render(request, "chat/index.html")
+
+
+def room(request, room_name: str):
+    return render(request, "chat/room.html", {"room_name": room_name})

@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # ToDo: Split out the development settings e.g. django_browser_reload and debug_toolbar
 
 INSTALLED_APPS = [
+    "daphne",
     "flashcards",
     "tailwind",
     "debug_toolbar",
@@ -51,8 +52,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -61,6 +60,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_browser_reload.middleware.BrowserReloadMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "flashcards.urls"
@@ -92,6 +93,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
+        "TEST": {
+            "NAME": BASE_DIR / "test_db.sqlite3",
+        },
     }
 }
 
@@ -153,4 +157,14 @@ MARKDOWNIFY = {
         "WHITELIST_ATTRS": ["class", "src", "alt"],  # required for syntax highlighting
         "MARKDOWN_EXTENSION_CONFIGS": {"fenced_code": {"lang_prefix": "language-python"}},
     }
+}
+
+ASGI_APPLICATION = "flashcards.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
 }
