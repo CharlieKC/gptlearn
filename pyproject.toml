@@ -24,6 +24,9 @@ django-stubs = "^4.2.4"
 factory-boy = "^3.3.0"
 pytest-watcher = "^0.3.4"
 orjson = "^3.9.7"
+uvicorn = "^0.23.2"
+channels = {extras = ["daphne"], version = "^4.0.0"}
+channels-redis = "^4.1.0"
 
 
 [tool.poetry.group.dev.dependencies]

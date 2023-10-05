@@ -32,4 +32,6 @@ urlpatterns = [
     path("accounts/profile/", RedirectView.as_view(url="/", permanent=False), name="account_redirect"),
     path("__reload__/", include("django_browser_reload.urls")),
     path("__debug__/", include("debug_toolbar.urls")),
+    path("chat/", views.chat_room, name="chat"),
+    path("chat/<str:room_name>/", views.room, name="room"),
 ]
