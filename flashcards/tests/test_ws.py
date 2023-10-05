@@ -1,4 +1,3 @@
-# chat/tests.py
 from channels.testing import ChannelsLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -18,7 +17,6 @@ class ChatTests(ChannelsLiveServerTestCase):
             options = webdriver.ChromeOptions()
             options.add_argument("--headless")
             cls.driver = webdriver.Chrome(options=options)
-            # cls.driver = webdriver.Chrome(service=webdriver_service, options=chrome_options)
         except Exception:
             super().tearDownClass()
             raise
