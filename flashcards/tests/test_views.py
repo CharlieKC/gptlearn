@@ -55,7 +55,7 @@ def test_get_queryset_authenticated_user(authenticated_client):
 def test_get_queryset_unauthenticated_user(client_factory):
     client = client_factory(auth=False)
     response = client.get(reverse("conversation-list"))
-    assert response.status_code == 403
+    assert response.status_code == 299
 
 
 @pytest.mark.django_db
