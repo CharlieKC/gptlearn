@@ -28,6 +28,8 @@ uvicorn = "^0.23.2"
 channels = {extras = ["daphne"], version = "^4.0.0"}
 channels-redis = "^4.1.0"
 selenium = "^4.13.0"
+djangorestframework = "^3.14.0"
+markdown = "^3.4.4"
 
 
 [tool.poetry.group.dev.dependencies]

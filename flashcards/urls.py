@@ -17,15 +17,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import RedirectView
+from rest_framework import routers
 
 from . import views
 
 app_name = "flashcards"
 
+
+router = routers.DefaultRouter()
+router.register("conversation", views.ConversationViewSet, basename="conversation")
+
+
 # ToDo: Consider how these change with django-ninja or drf
 urlpatterns = [
     path("", views.chat_interface, name="chat_interface"),
-    path("api/conversations", views.list_user_conversations, name="conversation_list_user"),
+    path("api/", include(router.urls)),
+    # path("api/conversations/", views.list_user_conversations, name="conversation_list_user"),
     path("api/chat/", views.api_chat, name="api_chat"),
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
@@ -34,4 +41,5 @@ urlpatterns = [
     path("__debug__/", include("debug_toolbar.urls")),
     path("chat/", views.chat_room, name="chat"),
     path("chat/<str:room_name>/", views.room, name="room"),
+    path("api-auth/", include("rest_framework.urls")),
 ]

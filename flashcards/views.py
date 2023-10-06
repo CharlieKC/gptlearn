@@ -2,6 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.shortcuts import render
+from rest_framework import viewsets
+
+from flashcards.serializers import ConversationSerializer
 
 from .models import Conversation, Message
 
@@ -29,6 +32,17 @@ def list_user_conversations(request):
     conversations = list(Conversation.objects.filter(user=request.user).all())
     data = serialize("json", conversations)
     return JsonResponse(data, safe=False)
+
+
+class ConversationViewSet(viewsets.ModelViewSet):
+    serializer_class = ConversationSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return Conversation.objects.filter(user=user)
+        else:
+            return Conversation.objects.none()
 
 
 def api_chat(request):
