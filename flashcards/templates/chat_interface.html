@@ -51,12 +51,6 @@
         success: function(response) {
           console.log(response);
           conversation_id = response.id;
-          console.log("New conversation id:", conversation_id);
-          console.log({
-            {
-              user.id
-            }
-          });
           clearMessages();
           getChatSocket();
 
@@ -73,7 +67,6 @@
         method: "GET",
         success: function(result) {
           conversations = result.results;
-          console.log(conversations);
           if (conversations.length === 0) {
             newConversation();
             return;
@@ -132,9 +125,6 @@
 
     const csrftoken = getCookie('csrftoken');
 
-    // console.log the getCookie for conversation_id
-    console.log(getCookie('conversation_id'));
-
     function appendMessage(who, text) {
       let left_or_right = "end";
       let color = "success";
@@ -142,9 +132,6 @@
         left_or_right = "start";
         color = "primary";
       }
-
-
-      // const message = `<div class="chat chat-${left_or_right}"><div class="chat-header mx-1">${who}</div><div class="chat-bubble chat-bubble-${color}">${text}</div></div>`;
       const message = `<div class="chat chat-${left_or_right}"><div class="chat-header mx-1">${who}</div><div class="chat-bubble chat-bubble-${color}">${text}</div></div>`;
       $("#chat-box").append(message);
     }
@@ -152,9 +139,6 @@
     function clearMessages() {
       $("#chat-box").empty();
     }
-
-
-
 
     function sendMessage() {
       const userInput = $("#user-input").val();
@@ -164,7 +148,6 @@
 
       $("#user-input").val("");
     }
-
 
     const userInput = document.getElementById('user-input');
 
