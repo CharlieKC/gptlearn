@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Conversation: {{ request.session.conversation_id }}</h1>
-  {% for msg in messages %}<p>{{ msg.text }}</p>{% endfor %}
+  <button id="new-conversation-btn"
+          class="btn btn-primary w-1/4 mx-auto my-2 bg-primary-500 hover:bg-primary-600 active:bg-primary-700 focus:shadow-outline-primary">
+    New Conversation
+  </button>
+  <p id="current-conversation"></p>
   <div id="chat-ui" class="mx-auto w-11/12">
     <!-- Messages will go here -->
     <div id="chat-box"></div>
@@ -19,29 +22,96 @@
   </div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    // get a list of conversations from /api/conversations/
-    function getConversations() {
+    let conversation_id = -1;
+    let chatSocket = null;
+
+    const newConversationBtn = document.getElementById("new-conversation-btn");
+
+    // Add event listener for the 'click' event
+    newConversationBtn.addEventListener('click', function(event) {
+      // Reset rows to 1 to calculate the correct scrollHeight
+      event.preventDefault(); // Prevent the default action (new line or form submission)
+      newConversation();
+    });
+
+    function newConversation() {
       $.ajax({
-        url: "/api/conversations/",
-        method: "GET",
+        url: "/api/conversation/",
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrftoken
+        },
+        data: {
+          user: {
+            {
+              user.id
+            }
+          }
+        },
         success: function(response) {
           console.log(response);
-          // Loop through the conversations and g
+          conversation_id = response.id;
+          console.log("New conversation id:", conversation_id);
+          console.log({
+            {
+              user.id
+            }
+          });
+          clearMessages();
+          getChatSocket();
+
+        },
+      });
+    }
+
+
+    // get a list of conversations from /api/conversations/
+    function getConversations() {
+      // the most recent conversation is first in the list
+      $.ajax({
+        url: "/api/conversation/?page=1",
+        method: "GET",
+        success: function(result) {
+          conversations = result.results;
+          console.log(conversations);
+          if (conversations.length === 0) {
+            newConversation();
+            return;
+          }
+          const firstConversation = conversations[0];
+          conversation_id = firstConversation.id;
+          getChatSocket();
+          return;
+
         }
       });
     }
-    getConversations();
 
+    getConversations();
+    // set the request.session.conversation_id to the most recent conversation
+    // request.session.conversation_id = conversations[0].id;
 
 
     // Make a chat socket, with the ?conversation_id= parameter
-    const chatSocket = new WebSocket(
-      'ws://' +
-      window.location.host +
-      '/ws/chat/?conversation_id=' +
-      '{{ request.session.conversation_id }}'
-    );
+    function getChatSocket() {
+      chatSocket = new WebSocket(
+        'ws://' +
+        window.location.host +
+        '/ws/chat/?conversation_id=' +
+        conversation_id
+      );
+      chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        appendMessage(data.role, data.message);
+      };
 
+      chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+      };
+
+      // set the current conversation id
+      document.getElementById("current-conversation").innerHTML = "Current conversation: " + conversation_id;
+    }
 
 
     // Function to get CSRF token from cookies
@@ -62,6 +132,9 @@
 
     const csrftoken = getCookie('csrftoken');
 
+    // console.log the getCookie for conversation_id
+    console.log(getCookie('conversation_id'));
+
     function appendMessage(who, text) {
       let left_or_right = "end";
       let color = "success";
@@ -76,24 +149,18 @@
       $("#chat-box").append(message);
     }
 
+    function clearMessages() {
+      $("#chat-box").empty();
+    }
+
+
+
 
     function sendMessage() {
       const userInput = $("#user-input").val();
-      appendMessage("user", userInput);
-
-      $.ajax({
-        url: "/api/chat/",
-        method: "POST",
-        headers: {
-          "X-CSRFToken": csrftoken
-        },
-        data: {
-          text: userInput
-        },
-        success: function(response) {
-          appendMessage("assistant", response.text);
-        }
-      });
+      chatSocket.send(JSON.stringify({
+        'message': userInput
+      }));
 
       $("#user-input").val("");
     }

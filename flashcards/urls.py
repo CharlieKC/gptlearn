@@ -32,14 +32,10 @@ router.register("conversation", views.ConversationViewSet, basename="conversatio
 urlpatterns = [
     path("", views.chat_interface, name="chat_interface"),
     path("api/", include(router.urls)),
-    # path("api/conversations/", views.list_user_conversations, name="conversation_list_user"),
-    path("api/chat/", views.api_chat, name="api_chat"),
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("accounts/profile/", RedirectView.as_view(url="/", permanent=False), name="account_redirect"),
     path("__reload__/", include("django_browser_reload.urls")),
     path("__debug__/", include("debug_toolbar.urls")),
-    path("chat/", views.chat_room, name="chat"),
-    path("chat/<str:room_name>/", views.room, name="room"),
     path("api-auth/", include("rest_framework.urls")),
 ]
