@@ -11,5 +11,8 @@
   },
   "devDependencies": {
     "@remix-run/dev": "^2.0.1"
+  },
+  "scripts": {
+    "dev": "remix dev -c \"node server.mjs\""
   }
 }
