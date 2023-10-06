@@ -1,6 +1,8 @@
 import copy
 
 import pytest
+from django.contrib.auth.models import AnonymousUser
+from django.test import Client
 from selenium import webdriver
 
 from flashcards.models import User
@@ -16,7 +18,23 @@ def user(db) -> User:
 def authenticated_client(user, client):
     new_client = copy.deepcopy(client)
     new_client.force_login(user)
+    new_client.user = user
     return new_client
+
+
+@pytest.fixture(scope="function")
+def client_factory():
+    def get(auth=True):
+        client = Client()
+        if auth:
+            user = UserFactory()
+            client.force_login(user)
+            client.user = user
+        else:
+            client.user = AnonymousUser()
+        return client
+
+    return get
 
 
 @pytest.fixture(scope="module")

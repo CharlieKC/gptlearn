@@ -2,25 +2,17 @@ from django.contrib.auth.decorators import login_required
 from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework.pagination import PageNumberPagination
 
-from .models import Conversation, Message
+from flashcards.serializers import ConversationSerializer
+
+from .models import Conversation
 
 
 @login_required(login_url="/accounts/login/")
 def chat_interface(request):
-    messages = []
-
-    if request.user.is_authenticated:
-        if conversation_id := request.session.get("conversation_id"):
-            conversation = Conversation.objects.get(user=request.user, id=conversation_id)
-        else:
-            conversation = Conversation.objects.create(user=request.user)
-            conversation.save()
-            request.session["conversation_id"] = conversation.id
-
-        for msg in conversation.messages.all():
-            messages.append(msg)
-    return render(request, "chat_interface.html", {"messages": messages})
+    return render(request, "chat_interface.html")
 
 
 @login_required(login_url="/accounts/login/")
@@ -31,27 +23,19 @@ def list_user_conversations(request):
     return JsonResponse(data, safe=False)
 
 
-def api_chat(request):
-    # Create a new conversation if one doesn't exist
-    if "conversation_id" not in request.session:
-        conversation = Conversation.objects.create(user=request.user)
-        request.session["conversation_id"] = conversation.id
-    else:
-        conversation = Conversation.objects.get(user=request.user, id=request.session["conversation_id"])
+class ConversationViewSet(viewsets.ModelViewSet):
+    serializer_class = ConversationSerializer
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 10
+    pagination_class.page_size_query_param = "page_size"
+    pagination_class.max_page_size = 50
 
-    # Save user message
-    user_input = request.POST.get("text").strip()
-    assert isinstance(user_input, str), f"Expected user to enter a string instead got: {user_input}"
-    Message.objects.create(conversation=conversation, text=user_input, role="user")
-
-    # TODO: Get chatbot's response here
-    # ToDo: ensure it is whitespace stripped
-    bot_response = "Hello, this is a placeholder response."
-
-    # Save bot message
-    Message.objects.create(conversation=conversation, text=bot_response, role="assistant")
-
-    return JsonResponse({"text": bot_response})
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return Conversation.objects.filter(user=user).order_by("-created_at")
+        else:
+            return Conversation.objects.none()
 
 
 def chat_room(request):
