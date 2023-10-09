@@ -1,7 +1,7 @@
 # pull official base image
 FROM python:3.11.4-slim-buster
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \

@@ -9,9 +9,16 @@ services:
   backend:
     build: ./backend
     volumes:
-      - ./backend:/usr/src/app
+      - ./backend/data.:/usr/src/app/data
     ports:
       - 8000:8000
+    develop:
+      watch:
+        - action: sync
+          path: ./backend
+          target: /usr/src/app
+        - action: rebuild
+          path: ./backend/pyproject.toml
 
 
   frontend:
