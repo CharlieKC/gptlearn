@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-vt%dgfdo*=vva@$l8hkbcqfw8o$cpw9i$#j+@!pr8)zgzjo!*z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["http://localhost:3000"]
 
 
 # Application definition
@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "daphne",
+    "corsheaders",
     "flashcards",
     "tailwind",
     "rest_framework",
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -178,3 +180,20 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     # "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "https://localhost:3000",
+    "http://localhost:8000",
+    "https://localhost:8000",
+    "http://127.0.0.1:*",
+]
+
+CSRF_ALLOWED_ORIGINS = ["http://localhost:3000", "https://localhost:3000", "http://127.0.0.1", "http://localhost:8000"]
+# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_HEADERS = [
+    "X-CSRFToken",
+    "Content-Type",
+]

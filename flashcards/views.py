@@ -1,4 +1,6 @@
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.middleware.csrf import get_token
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
@@ -6,6 +8,12 @@ from rest_framework.pagination import PageNumberPagination
 from flashcards.serializers import ConversationSerializer
 
 from .models import Conversation
+
+
+def fetch_csrf(request):
+    response = JsonResponse({"detail": "CSRF cookie set"})
+    response["X-CSRFToken"] = get_token(request)
+    return response
 
 
 @login_required(login_url="/accounts/login/")

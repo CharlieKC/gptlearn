@@ -16,6 +16,7 @@ router.register("conversation", views.ConversationViewSet, basename="conversatio
 urlpatterns = [
     path("", views.chat_interface, name="chat_interface"),
     path("api/", include(router.urls)),
+    path("api/csrfToken/", views.fetch_csrf, name="fetch_csrf"),
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("accounts/profile/", RedirectView.as_view(url="/", permanent=False), name="account_redirect"),
