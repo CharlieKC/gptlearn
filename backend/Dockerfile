@@ -1,20 +1,29 @@
 # pull official base image
-FROM python:3.11.5-slim-buster
+FROM python:3.11.4-slim-buster
 
-# set working directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# set environment variables
+ENV PIP_DEFAULT_TIMEOUT=100 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_NO_CACHE_DIR=1 \
+    POETRY_VERSION=1.6.1 \
+    PYTHONFAULTHANDLER=1 \
+    PYTHONHASHSEED=random \
+    PYTHONUNBUFFERED=1
+# no .pyc files
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# install dependencies
-RUN pip install --upgrade pip
-COPY ./requirements.txt .
-RUN pip install -r requirements.txt
+# RUN apk add --no-cache gcc libffi-dev musl-dev postgresql-dev
+RUN pip install "poetry==$POETRY_VERSION"
+RUN python -m venv /venv
+
+COPY pyproject.toml poetry.lock ./
+RUN poetry export -f requirements.txt | /venv/bin/pip install -r /dev/stdin
+
 
 # add app
 COPY . .
 
 # start app
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["/venv/bin/python", "manage.py", "runserver", "0.0.0.0:8000"]

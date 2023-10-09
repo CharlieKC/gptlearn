@@ -1,6 +1,10 @@
 version: '3.8'
 
 services:
+  redis:
+    build: ./redis
+    expose:
+      - 6379
 
   backend:
     build: ./backend
