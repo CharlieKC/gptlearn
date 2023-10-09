@@ -13,4 +13,4 @@ COPY package-lock.json .
 RUN npm ci
 
 # start app
-CMD ["vite", "--host"]
+CMD ["npm", "run", "dev"]
