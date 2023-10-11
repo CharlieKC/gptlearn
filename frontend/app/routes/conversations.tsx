@@ -1,15 +1,3 @@
-// vite host gave me the host I was running on
-// fetch("http://172.18.0.3:5173/api/csrf/").then((data) => {console.log(data)})
-// actually worked...
-// or using
-// fetch("http://localhost:5173/api/csrf/").then((data) => {console.log(data)})
-
-
-// const csrfUrl = "http://localhost:3000/api/csrfToken/";
-
-
-const csrfUrl = "http://172.19.0.5/api/csrfToken/"; //This works, using nginx ipv4 found using docker network inspect
-
 const BASE_URL = "http://172.19.0.5"
 
 // make a function to wrap the fetch call and prepend the base url
@@ -23,7 +11,6 @@ const fetchApi = (url: string, options: any) => {
     return fetch(BASE_URL + url, options);
 }
 
-console.log("Gonna fetch csrf token from ", csrfUrl);
 fetchApi("/api/csrfToken", {
     method: 'GET',
     credentials: 'same-origin',
@@ -45,6 +32,6 @@ fetchApi("/api/csrfToken", {
 export default function Conversations() {
     return (
         <p id="conversation-page">Conversation page, placeholder, oi! woo</p>
-        // render the first 5 charecters of the csrf token
+        // render the first 5 characters of the csrf token
     );
 }
