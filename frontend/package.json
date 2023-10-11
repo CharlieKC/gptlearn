@@ -4,14 +4,16 @@
   "sideEffects": false,
   "scripts": {
     "build": "remix build",
-    "dev": "remix dev",
+    "dev": "remix dev -c \"node server.mjs\"",
     "start": "remix-serve build",
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@remix-run/express": "^2.0.1",
     "@remix-run/node": "^2",
     "@remix-run/react": "^2",
     "@remix-run/serve": "^2",
+    "express": "^4.18.2",
     "isbot": "^3.6.13",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
