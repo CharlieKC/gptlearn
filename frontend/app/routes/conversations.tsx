@@ -1,3 +1,5 @@
+import { json } from "@remix-run/node"; // or cloudflare/deno
+import { useLoaderData } from "@remix-run/react";
 // the nginx reverse proxy will set the header host to 127.0.0.1 and forward
 // any requests to the backend, ok, what
 const BASE_URL = "http://reverse_proxy"
@@ -13,27 +15,38 @@ const fetchApi = (url: string, options: any) => {
     return fetch(BASE_URL + url, options);
 }
 
-// get the csrf token
-fetchApi("/api/csrfToken", {
-    method: 'GET',
-    credentials: 'same-origin',
-    headers: {
-        'Content-Type': 'application/json'
-    }
-}).then(data => {
-    // console log the X-CSRFToken header
-    const csrfToken = data.headers.get('X-CSRFToken');
-    if (csrfToken == null) {
-        console.log("csrfToken is null, something went wrong");
-    }
-    console.log("X-CSRFToken: ", data.headers.get('X-CSRFToken'));
 
-});
+export const loader = async () => {
+    const csrfToken: string = await fetchApi("/api/csrfToken/", {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(data => {
+        const token = data.headers.get('X-CSRFToken');
+        if (token == null) {
+            console.log("csrfToken is null, something went wrong");
+        }
+        return token ? token : "";
 
+    })
+    return json([
+        { csrf: await csrfToken },
+    ]);
+};
 
 
 export default function Conversations() {
+    const csrfToken = useLoaderData<typeof loader>();
+
     return (
-        <p id="conversation-page">Conversation page, placeholder, oi! woo</p>
+        <div id="conversation-page">
+            <h1 id="conversation-page">Conversation page</h1>
+            {csrfToken.map((token) => (
+                <p key={token.csrf}>{token.csrf}</p>
+            ))}
+        </div>
+
     );
 }
