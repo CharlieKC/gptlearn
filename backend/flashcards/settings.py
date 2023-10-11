@@ -25,14 +25,21 @@ SECRET_KEY = "django-insecure-vt%dgfdo*=vva@$l8hkbcqfw8o$cpw9i$#j+@!pr8)zgzjo!*z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["http://localhost:3000", "172.24.208.18", "172.19.0.5"]
-
+ALLOWED_HOSTS = [
+    "http://localhost:3000",
+    "172.24.208.18",
+    "172.19.0.5",
+    "http://localhost:8000" "localhost",
+    ".localhost",
+    "127.0.0.1",
+    "[::1]",
+    "reverse_proxy",
+]
 
 # Application definition
 # ToDo: Split out the development settings e.g. django_browser_reload and debug_toolbar
 
 INSTALLED_APPS = [
-    "daphne",
     "corsheaders",
     "flashcards",
     "tailwind",
@@ -90,6 +97,7 @@ WSGI_APPLICATION = "flashcards.wsgi.application"
 
 
 # Database
+# hmm
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
@@ -182,15 +190,16 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "https://localhost:3000",
-    "http://localhost:8000",
-    "https://localhost:8000",
-    "http://127.0.0.1:*",
+    # "http://localhost:3000",
+    # "https://localhost:3000",
+    # "http://localhost:8000",
+    # "https://localhost:8000",
+    # "http://127.0.0.1:*",
+    "http://127.0.0.1",
 ]
 
 CSRF_ALLOWED_ORIGINS = ["http://localhost:3000", "https://localhost:3000", "http://127.0.0.1", "http://localhost:8000"]
-# CORS_ALLOW_ALL_ORIGINS = True
+# Not for production
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_HEADERS = [

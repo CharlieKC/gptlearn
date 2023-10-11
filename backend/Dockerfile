@@ -27,4 +27,4 @@ RUN poetry export -f requirements.txt | /venv/bin/pip install -r /dev/stdin
 COPY . .
 
 # start app
-CMD ["/venv/bin/python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["/venv/bin/uvicorn", "flashcards.asgi:application", "--host", "0.0.0.0", "--reload"]

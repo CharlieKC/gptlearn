@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package.json .
 COPY package-lock.json .
 
-# RUN npm install
+# ci installs dependencies, install tries to update them
 RUN npm ci
 
 COPY . .

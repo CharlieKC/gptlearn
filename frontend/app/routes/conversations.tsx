@@ -1,4 +1,6 @@
-const BASE_URL = "http://172.19.0.5"
+// the nginx reverse proxy will set the header host to 127.0.0.1 and forward
+// any requests to the backend, ok, what
+const BASE_URL = "http://reverse_proxy"
 
 // make a function to wrap the fetch call and prepend the base url
 const fetchApi = (url: string, options: any) => {
@@ -11,6 +13,7 @@ const fetchApi = (url: string, options: any) => {
     return fetch(BASE_URL + url, options);
 }
 
+// get the csrf token
 fetchApi("/api/csrfToken", {
     method: 'GET',
     credentials: 'same-origin',
@@ -32,6 +35,5 @@ fetchApi("/api/csrfToken", {
 export default function Conversations() {
     return (
         <p id="conversation-page">Conversation page, placeholder, oi! woo</p>
-        // render the first 5 characters of the csrf token
     );
 }
