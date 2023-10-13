@@ -26,15 +26,10 @@ SECRET_KEY = "django-insecure-vt%dgfdo*=vva@$l8hkbcqfw8o$cpw9i$#j+@!pr8)zgzjo!*z
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "http://localhost:3000",
-    "172.24.208.18",
-    "172.19.0.5",
-    "http://localhost:8000" "localhost",
-    ".localhost",
+    "localhost",
     "127.0.0.1",
-    "[::1]",
-    "reverse_proxy",
 ]
+CSRF_USE_SESSIONS = True
 
 # Application definition
 # ToDo: Split out the development settings e.g. django_browser_reload and debug_toolbar
@@ -44,6 +39,7 @@ INSTALLED_APPS = [
     "flashcards",
     "tailwind",
     "rest_framework",
+    "knox",
     "debug_toolbar",
     "markdownify",
     "django_browser_reload",
@@ -181,28 +177,26 @@ CHANNEL_LAYERS = {
 }
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
-    ),
-    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",),
+    # "DEFAULT_AUTHENTICATION_CLASSES": (
+    #     "rest_framework.authentication.SessionAuthentication",
+    #     "rest_framework.authentication.TokenAuthentication",
+    # ),
+    # "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     # "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 CORS_ALLOWED_ORIGINS = [
-    # "http://localhost:3000",
-    # "https://localhost:3000",
-    # "http://localhost:8000",
-    # "https://localhost:8000",
-    # "http://127.0.0.1:*",
     "http://127.0.0.1",
 ]
 
-CSRF_ALLOWED_ORIGINS = ["http://localhost:3000", "https://localhost:3000", "http://127.0.0.1", "http://localhost:8000"]
-# Not for production
-CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_HEADERS = [
-    "X-CSRFToken",
     "Content-Type",
+    "X-CSRFToken",
 ]
+
+CSRF_COOKIE_SAMESITE = "Strict"
+SESSION_COOKIE_SAMESITE = "Strict"
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_HTTPONLY = True

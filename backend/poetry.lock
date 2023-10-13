@@ -808,6 +808,22 @@ doc = ["markdown-include", "mkdocs", "mkdocs-material", "mkdocstrings"]
 test = ["black", "django-stubs", "flake8", "isort", "mypy (==0.931)", "psycopg2-binary", "pytest", "pytest-asyncio", "pytest-cov", "pytest-django"]
 
 [[package]]
+name = "django-rest-knox"
+version = "4.2.0"
+description = "Authentication for django rest framework"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "django-rest-knox-4.2.0.tar.gz", hash = "sha256:4595f1dc23d6e41af7939e5f2d8fdaf6ade0a74a656218e7b56683db5566fcc9"},
+    {file = "django_rest_knox-4.2.0-py3-none-any.whl", hash = "sha256:62b8e374a44cd4e9617eaefe27c915b301bf224fa6550633d3013d3f9f415113"},
+]
+
+[package.dependencies]
+cryptography = "*"
+django = ">=3.2"
+djangorestframework = "*"
+
+[[package]]
 name = "django-stubs"
 version = "4.2.4"
 description = "Mypy stubs for Django"
@@ -2766,4 +2782,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "d67fe8b8365d0cacd9a2b7b1f2ea661893054e25853ea79c3530f9b795f3afc1"
+content-hash = "473063f7f40a74d77274f81c3a15cf5402ee7a29846df0bb575e10c5d3fad4b2"

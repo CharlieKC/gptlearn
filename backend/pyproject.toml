@@ -32,6 +32,7 @@ markdown = "^3.4.4"
 django-cors-headers = "^4.2.0"
 channels = "^4.0.0"
 watchfiles = "^0.20.0"
+django-rest-knox = "^4.2.0"
 
 
 [tool.poetry.group.dev.dependencies]
