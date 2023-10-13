@@ -31,7 +31,7 @@ def fetch_csrf(request):
 
 @api_view(["GET"])
 def whoami(request):
-    return JsonResponse({"detail": f"Hello {request.user.username}"})
+    return JsonResponse({"username": request.user.username})
 
 
 @csrf_protect
