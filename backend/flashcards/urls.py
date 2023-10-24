@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import RedirectView
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 from rest_framework import routers
 
 from . import views
@@ -27,4 +28,8 @@ urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
     path("__debug__/", include("debug_toolbar.urls")),
     path("api-auth/", include("rest_framework.urls")),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    # Optional UI:
+    path("api/schema/swagger-ui/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+    path("api/schema/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
 ]

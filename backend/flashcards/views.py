@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
@@ -12,6 +14,8 @@ from rest_framework.pagination import PageNumberPagination
 from flashcards.serializers import ConversationSerializer
 
 from .models import Conversation
+
+logger = logging.getLogger(__name__)
 
 
 class LoginView(KnoxLoginView):
@@ -58,3 +62,8 @@ class ConversationViewSet(viewsets.ModelViewSet):
             return Conversation.objects.filter(user=user).order_by("-created_at")
         else:
             return Conversation.objects.none()
+
+    def perform_create(self, serializer):
+        logger.info(f"create had been hit!, current user: {self.request.user}")
+        serializer.save(user=self.request.user)
+        # return super().create(request, *args, **kwargs)

@@ -58,6 +58,12 @@ export default function App() {
       <body>
         <div id="sidebar">
           <h1>Remix Contacts</h1>
+          <ul>
+          <li><NavLink to={`conversations`}>Conversations</NavLink></li>
+          <li><NavLink to={`login`}>Log in!</NavLink></li>
+          <li><NavLink to={`logout`}>Log out!</NavLink></li>
+          <li><NavLink to={`whoami`}>Who am I?</NavLink></li>
+          </ul>
           <div>
             <Form id="search-form" role="search"
               onChange={(event) => {
@@ -83,7 +89,6 @@ export default function App() {
           <nav>
             {contacts.length ? (
               <ul>
-                <li><NavLink to={`conversations`}>Conversations</NavLink></li>
                 {contacts.map((contact) => (
                   <li key={contact.id}>
                     <NavLink className={({ isActive, isPending }) =>

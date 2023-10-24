@@ -13,7 +13,6 @@ class MessageInline(admin.TabularInline):
 class ConversationAdmin(admin.ModelAdmin):
     inlines = [MessageInline]
     list_display = ["id", "user", "created_at", "updated_at"]
-    readonly_fields = ["user", "created_at", "updated_at"]
 
 
 admin.site.register(Message)

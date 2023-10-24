@@ -14,4 +14,5 @@ class ConversationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Conversation
-        fields = ["id", "user", "created_at", "messages"]
+        # can the user be implicit?
+        fields = ["id", "created_at", "messages"]
