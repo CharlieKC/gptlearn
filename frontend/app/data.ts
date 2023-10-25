@@ -6,6 +6,21 @@ import { matchSorter } from "match-sorter";
 // @ts-ignore - no types, but it's a tiny function
 import sortBy from "sort-by";
 import invariant from "tiny-invariant";
+import { fetchApi, getSession } from "./sessions";
+
+type Message = {
+  id: number,
+  text: string,
+  role: string,
+  created_at: string,
+}
+
+type Conversation = {
+  id: number,
+  user: string,
+  created_at: string,
+  messages: Message[],
+}
 
 type ContactMutation = {
   id?: string;
@@ -21,6 +36,52 @@ export type ContactRecord = ContactMutation & {
   id: string;
   createdAt: string;
 };
+
+
+const userConversations = {
+  conversations: {} as Record<string, Conversation>,
+
+  async getAll(): Promise<Conversation[]> {
+    return Object.keys(userConversations.conversations)
+      .map((key) => userConversations.conversations[key])
+      .sort(sortBy("-createdAt", "last"));
+  },
+
+  async get(id: string): Promise<Conversation | null> {
+    return userConversations.conversations[id] || null;
+  },
+
+  async create(): Promise<Conversation> {
+    // add logic
+    return userConversations.conversations[0];
+  },
+
+  // async destroy(id: string): null {
+  //   delete userConversations.conversations[id];
+  //   return null;
+  // }
+}
+
+export async function populateConversations(request: Request) {
+  // get the token
+  const session = await getSession(request.headers.get("Cookie"));
+  const token = await session.get("userId");
+
+  // get the conversations from the backend
+  const convs = fetchApi("/api/conversation/", {
+    method: 'GET',
+    headers: {
+      'Authorization': `Token ${token}`
+    }
+  }).then(data => {
+    var jsonData = data.json();
+    return jsonData;
+  });
+
+  console.log("convs: ", await convs)
+  return convs
+
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // This is just a fake DB table. In a real app you'd be talking to a real db or
