@@ -10,16 +10,13 @@ type SessionFlashData = {
 };
 
 
-// const BASE_URL = "http://reverse_proxy"
-export const BASE_URL = "http://localhost:8000"
+export const BASE_URL = "http://reverse_proxy"
 
 // make a function to wrap the fetch call and prepend the base url
 export const fetchApi = (url: string, options: any) => {
   // ensure the url starts with a slash
-  if (!url.startsWith("/")) {
-    url = "/" + url;
-    console.log("Url should start with a slash, adding one now...");
-  }
+  if (!url.startsWith("/")) { throw new Error("URL must start with a slash"); }
+
   console.log("Fetching from: ", BASE_URL + url);
   return fetch(BASE_URL + url, options).then(response => {
     if (!response.ok) {
@@ -44,8 +41,10 @@ const validateCredentials = async (username: string, password: string) => {
     },
   }).then(data => {
     var jsonData = data.json();
-    // this should have two fields, expiry and token
-    // can I also get the username here?
+    if (jsonData.token == null || jsonData.expiry == null) {
+      console.error("Error fetching token: ", jsonData);
+      return null;
+    }
     return jsonData;
   }).catch(error => {
     console.error("Error fetching token: ", error);
@@ -72,14 +71,9 @@ const { getSession, commitSession, destroySession } =
       cookie: {
         name: "__session",
 
-        // all of these are optional
+        // Set this to the domain once I have once
         // domain: "remix.run",
-        // Expires can also be set (although maxAge overrides it when used in combination).
-        // Note that this method is NOT recommended as `new Date` creates only one date on each server deployment, not a dynamic date in the future!
-        // ToDo actually set this via the jwt.
-        // expires: new Date(Date.now() + 60_000),
         httpOnly: true,
-        // maxAge: 60,
         path: "/",
         sameSite: "lax",
         secrets: ["s3cret1"],
