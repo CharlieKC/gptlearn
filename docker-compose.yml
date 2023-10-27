@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  redis:
+    build: ./redis
+    expose:
+      - 6379
+
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend/data:/usr/src/app/data
+    ports:
+      - 8000:8000
+    develop:
+      watch:
+        - action: sync
+          path: ./backend
+          target: /usr/src/app
+        - action: rebuild
+          path: ./backend/pyproject.toml
+  frontend:
+    build: ./frontend
+    expose:
+      - 3000
+    ports:
+      - 3001:3001
+      - 3000:3000
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend
+          target: /usr/src/app
+        - action: rebuild
+          path: ./frontend/package.json
+
+  reverse_proxy:
+    build: ./nginx
+    ports:
+      - 81:80
+    depends_on:
+      - backend
+      - frontend
+    develop:
+      watch:
+        - action: rebuild
+          path: ./nginx
