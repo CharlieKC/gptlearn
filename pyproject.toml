@@ -8,7 +8,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-django = "^4.2.5"
+django = "^4.2.7"
 django-ninja = "^0.22.2"
 django-extensions = "^3.2.3"
 pydotplus = "^2.0.2"
